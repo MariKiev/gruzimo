@@ -14,7 +14,7 @@
           <form action="{% url 'login' %}" method="POST" id="" name="login_user_form">
             {% csrf_token %}
             <div class="form-group">
-                <label for="username">Username</label><input class="form-control" name="username" type="text" value="">
+                <label for="username">Email</label><input class="form-control" name="username" type="text" value="">
             </div>
             <div class="form-group">
                 <label for="password">Password</label> <input class="form-control" id="password" name="password" type="password" value="">
