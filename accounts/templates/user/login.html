@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}django-bootstrap3{% endblock %}
+
+{% block base_content %}
+
+    <div class="row-fluid">
+      <div class="container-fluid" style="color: #ff0000;">{{ error }}</div>
+      <div class="col-sm-3 col-sm-offset-4">
+        <h1>Login</h1>
+        <div class="well">
+
+          <form action="{% url 'login' %}" method="POST" id="" name="login_user_form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Username</label><input class="form-control" name="username" type="text" value="">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label> <input class="form-control" id="password" name="password" type="password" value="">
+            </div>
+            <p><input class="btn btn-primary" class="form-control" id="submit" name="submit" type="submit" value="Login"></p>
+            </form>
+
+          </div>
+        </div>
+    </div>
+
+{% endblock %}
