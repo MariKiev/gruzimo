@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import dj_database_url
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -76,17 +78,19 @@ WSGI_APPLICATION = 'taxi.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'taxi_project',
-        'USER': 'taxi_project_admin',
-        'PASSWORD': 'djfhalenfiowehpncpoaweij',
-        'HOST': '127.0.0.1',
-        'PORT': '',
+if 'DATABASE_URL' in os.environ:
+    DATABASES = {'default': dj_database_url.parse(os.environ['DATABASE_URL'])}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'taxi_project',
+            'USER': 'taxi_project_admin',
+            'PASSWORD': 'djfhalenfiowehpncpoaweij',
+            'HOST': '127.0.0.1',
+            'PORT': '',
+        }
     }
-}
 
 
 # Password validation
