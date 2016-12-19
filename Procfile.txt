@@ -1,1 +1,1 @@
-web: gunicorn bigsize-car.wsgi --log-file -
+web: gunicorn taxi.wsgi --log-file -
