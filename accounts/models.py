@@ -37,3 +37,4 @@ class User(AbstractBaseUser):
     is_superuser = models.BooleanField('superuser status', default=False,
                                        help_text='Designates that this user has all permissions without '
                                                  'explicitly assigning them.')
+    is_verify_email = models.BooleanField(default=False)

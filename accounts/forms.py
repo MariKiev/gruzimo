@@ -6,6 +6,7 @@ from phonenumber_field.formfields import PhoneNumberField
 
 from accounts.models import User
 from locations.models import Location
+from orders.models import Order
 
 logger = logging.getLogger(__name__)
 
@@ -49,3 +50,14 @@ class RegistrationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['from_address', 'to_address', 'order_date', 'city']
+    #
+    # email = forms.EmailField(label="Email")
+    # first_name = forms.CharField(label="Имя")
+    # phone = PhoneNumberField(label="Телефон")
+    pass

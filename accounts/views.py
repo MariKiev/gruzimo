@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, logout as django_logout, login as 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from accounts.forms import RegistrationForm
+from accounts.forms import RegistrationForm, OrderForm
 from accounts.models import User
 
 logger = logging.getLogger(__name__)
@@ -27,7 +27,7 @@ def register(request):
             return render(request, 'user/register.html', {'form': registration_form})
 
         user = registration_form.save()
-        u = authenticate(email=user.email, password=request.POST.get('password1'))
+        user = authenticate(email=user.email, password=request.POST.get('password1'))
         django_login(request, user)
         return redirect('dashboard')
 
@@ -76,3 +76,20 @@ def dashboard(request):
 @login_required
 def get_profile(request):
     return render(request, 'user/profile.html')
+
+
+def create_order(request):
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+
+        if not form.is_valid():
+            return render(request, 'order/order.html', {'form': form})
+
+        user = form.save()
+        user = authenticate(email=user.email, password=request.POST.get('password1'))
+        django_login(request, user)
+        return redirect('dashboard')
+
+    else:
+        form = OrderForm()
+    return render(request, 'order/order.html', {'form': form})

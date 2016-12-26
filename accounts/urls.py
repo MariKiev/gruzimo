@@ -11,4 +11,7 @@ urlpatterns = [
     url(r'^dashboard/$', views.dashboard, name='dashboard'),
     url(r'^profile/$', views.get_profile, name='get_profile'),
 
+    # order
+    url(r'^order/$', views.create_order, name='create_order'),
+
 ]
