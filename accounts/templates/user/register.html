@@ -1,26 +1,70 @@
-{% extends 'base.html' %}
+{% extends 'index.html' %}
 {% load static bootstrap3 %}
-{% block title %}django-bootstrap3{% endblock %}
+{% block title %}Sign Up Form{% endblock %}
 
 {% block base_content %}
 
-<div class="container-fluid">
-    <h3 style="margin-top: 0px;">Контактная информация</h3>
-</div>
+{#<link rel="stylesheet" href="{% static "css/register.css" %}">#}
 
-<div class="container">
+<div class="container-fluid register-form">
+    <div class="col-sm-4 col-sm-offset-4 " >
+    <form action="" method="POST" role="form" >
+        {% csrf_token %}
 
-    <form action="" method="POST" role="form" class="admin-form form-horizontal">
-    {% csrf_token %}
+        <h2>РЕГИСТРАЦИЯ</h2>
 
-        {% bootstrap_form form form_group_class='form-group col-md-7' size='md' %}
+        <fieldset>
+
+{#          <legend><span class="number">1</span>Контактная информация</legend>#}
+        {% bootstrap_form form form_group_class='form-group' size='md' %}
+
+        </fieldset>
+
+{#        <fieldset>#}
+{#          <legend><span class="number">2</span>Оплата</legend>#}
+{#          <label for="bio">Biography:</label>#}
+{#          <textarea id="bio" name="user_bio"></textarea>#}
+{#        </fieldset>#}
+{#        <fieldset>#}
+{#        <label for="job">Job Role:</label>#}
+{#        <select id="job" name="user_job">#}
+{#          <optgroup label="Web">#}
+{#            <option value="frontend_developer">Front-End Developer</option>#}
+{#            <option value="php_developor">PHP Developer</option>#}
+{#            <option value="python_developer">Python Developer</option>#}
+{#            <option value="rails_developer"> Rails Developer</option>#}
+{#            <option value="web_designer">Web Designer</option>#}
+{#            <option value="WordPress_developer">WordPress Developer</option>#}
+{#          </optgroup>#}
+{#          <optgroup label="Mobile">#}
+{#            <option value="Android_developer">Androild Developer</option>#}
+{#            <option value="iOS_developer">iOS Developer</option>#}
+{#            <option value="mobile_designer">Mobile Designer</option>#}
+{#          </optgroup>#}
+{#          <optgroup label="Business">#}
+{#            <option value="business_owner">Business Owner</option>#}
+{#            <option value="freelancer">Freelancer</option>#}
+{#          </optgroup>#}
+{#          <optgroup label="Other">#}
+{#            <option value="secretary">Secretary</option>#}
+{#            <option value="maintenance">Maintenance</option>#}
+{#          </optgroup>#}
+{#        </select>#}
 
 
-      <div class="form-group">
-        <div class="col-md-7 submit-row">
-          <input type="submit" class="btn btn-primary" value="Зарегистрироваться" />
+        </fieldset>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Создать аккаунт</button>
         </div>
-      </div>
-    </form>
+
+        <div class="form-group agree-terms">
+
+            <p>Нажимая кнопку “Создать аккаунт”, Вы принимаете <a href="https://www.uber.com/legal/terms">Условия</a> и <a href="https://www.uber.com/legal/privacy">Политику конфиденциальности</a> Gruzimo.</p>
+
+        </div>
+  </form>
 </div>
+</div>
+
+
 {% endblock %}
