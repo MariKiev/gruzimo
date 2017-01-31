@@ -1,11 +1,24 @@
-{% extends "index.html" %}
+{% extends "index1.html" %}
+{% load staticfiles bootstrap3 %}
 
-{% block content %}
+{% block title %}Home{% endblock %}
 
-<div>
+{% block base_content %}
 
-</br>
-</br>
-</div>
+    <div class="container">
 
-{% endblock content %}
+        <form action="" method="POST" role="form" class="admin-form form-horizontal">
+        {% csrf_token %}
+
+            {% bootstrap_form form form_group_class='form-group col-md-7' size='md' %}
+
+
+          <div class="form-group">
+            <div class="col-md-7 submit-row">
+              <input type="submit" class="btn btn-primary" value="Отправить заявку" />
+            </div>
+          </div>
+        </form>
+    </div>
+
+{% endblock base_content %}

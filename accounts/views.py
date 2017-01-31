@@ -12,7 +12,20 @@ logger = logging.getLogger(__name__)
 
 
 def home(request):
-    return render(request, 'home.html')
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+
+        if not form.is_valid():
+            return render(request, 'order/order.html', {'form': form})
+
+        user = form.save()
+        user = authenticate(email=user.email, password=request.POST.get('password1'))
+        django_login(request, user)
+        return redirect('dashboard')
+
+    else:
+        form = OrderForm()
+    return render(request, 'home.html', {'form': form})
 
 
 def register(request):
