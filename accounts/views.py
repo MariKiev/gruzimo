@@ -18,10 +18,8 @@ def home(request):
         if not form.is_valid():
             return render(request, 'order/order.html', {'form': form})
 
-        user = form.save()
-        user = authenticate(email=user.email, password=request.POST.get('password1'))
-        django_login(request, user)
-        return redirect('dashboard')
+        form.save()
+        return redirect('home')
 
     else:
         form = OrderForm()
@@ -98,10 +96,8 @@ def create_order(request):
         if not form.is_valid():
             return render(request, 'order/order.html', {'form': form})
 
-        user = form.save()
-        user = authenticate(email=user.email, password=request.POST.get('password1'))
-        django_login(request, user)
-        return redirect('dashboard')
+        form.save()
+        return redirect('home')
 
     else:
         form = OrderForm()

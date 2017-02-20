@@ -27,7 +27,7 @@ class User(AbstractBaseUser):
     email = models.EmailField('email address', unique=True)
     first_name = models.CharField('first name', max_length=30)
     last_name = models.CharField('last name', max_length=30, default="")
-    phone = PhoneNumberField(default="")
+    phone = PhoneNumberField()
     city = models.ForeignKey(Location, default=1)
     get_news = models.BooleanField(default=False)
     is_active = models.BooleanField('active', default=True,

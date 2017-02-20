@@ -1,9 +1,32 @@
 {% extends "index1.html" %}
-{% load staticfiles bootstrap3 %}
+{% load static bootstrap3 %}
 
 {% block title %}Home{% endblock %}
 
 {% block base_content %}
+    <!--load bootstrap-datetimepicker for chose date and time by calendar -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.42/css/bootstrap-datetimepicker-standalone.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.0/moment.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.42/js/bootstrap-datetimepicker.min.js"></script>
+
+    <!--load google maps api -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&amp;language=ru-RU&region=UA&key=AIzaSyCOoHJDIPoMlcc_XJAKmhni2ucyadJAj8A&libraries=places&region=ua"></script>
+    <script type="text/javascript">
+       function initialize_from() {
+           var input = document.getElementById('id_from_address');
+           var options = {
+                types: ['address'],
+                componentRestrictions: {country: 'ua'}
+           };
+           var autocomplete = new google.maps.places.Autocomplete(input, options);
+
+           var input_to = document.getElementById('id_to_address');
+           var autocomplete_to = new google.maps.places.Autocomplete(input_to, options);
+       }
+       google.maps.event.addDomListener(window, 'load', initialize_from);
+
+    </script>
+
 
     <div class="container">
 
@@ -20,5 +43,16 @@
           </div>
         </form>
     </div>
+
+
+    <script>
+        $(function () {
+            $('#id_order_date').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm:ss',
+                minDate: moment().add(1, 'd').toDate(),
+            });
+        });
+
+    </script>
 
 {% endblock base_content %}

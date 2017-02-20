@@ -47,6 +47,12 @@ INSTALLED_APPS = [
     'bootstrap3',
 ]
 
+# Default settings
+BOOTSTRAP3 = {
+    # Put JavaScript in the HEAD section of the HTML document (only relevant if you use bootstrap3.html)
+    'javascript_in_head': True
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

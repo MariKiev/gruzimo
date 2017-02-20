@@ -55,9 +55,19 @@ class RegistrationForm(forms.ModelForm):
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ['from_address', 'to_address', 'order_date', 'city']
-    #
-    # email = forms.EmailField(label="Email")
-    # first_name = forms.CharField(label="Имя")
-    # phone = PhoneNumberField(label="Телефон")
-    pass
+        fields = ['from_address', 'from_house', 'from_entrance', 'to_address', 'to_house', 'order_date', 'name',
+                  'phone']
+
+        labels = {
+            'from_address': 'Адрес подачи:',
+            'from_house': 'Дом',
+            'from_entrance': 'Подъезд',
+            'to_address': 'Адрес доставки:',
+            'to_house': 'Дом',
+            'order_date': 'Когда ехать:',
+        }
+
+        widgets = {
+            'from_address': forms.widgets.Input(attrs={'autocomplete': 'on'}),
+            'to_address': forms.widgets.Input(attrs={'autocomplete': 'on'}),
+        }
