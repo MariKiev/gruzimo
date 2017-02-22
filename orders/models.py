@@ -23,3 +23,7 @@ class Order (models.Model):
     vehicle = models.ForeignKey(Vehicle, null=True)
     phone = PhoneNumberField()
     name = models.CharField(max_length=30)
+    length = models.IntegerField()  # in centimeter
+    width = models.IntegerField()  # in centimeter
+    height = models.IntegerField()  # in centimeter
+    info = models.CharField(max_length=1024)
