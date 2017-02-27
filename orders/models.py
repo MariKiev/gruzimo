@@ -27,3 +27,4 @@ class Order (models.Model):
     width = models.IntegerField()  # in centimeter
     height = models.IntegerField()  # in centimeter
     info = models.CharField(max_length=1024)
+    order_cost = models.IntegerField(null=True)

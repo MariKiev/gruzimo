@@ -56,7 +56,7 @@ class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ['from_address', 'from_house', 'from_entrance', 'to_address', 'to_house', 'order_date', 'name',
-                  'phone', 'length', 'width', 'height', 'info']
+                  'phone', 'length', 'width', 'height', 'info', 'order_cost']
 
         labels = {
             'from_address': 'Адрес подачи:',
@@ -70,7 +70,8 @@ class OrderForm(forms.ModelForm):
             'length': 'Длина, м:',
             'width': 'Ширина, м:',
             'height': 'Высота, м::',
-            'info': 'Опишите ваш груз'
+            'info': 'Опишите ваш груз',
+            'order_cost': 'Стоимость'
         }
 
         widgets = {
