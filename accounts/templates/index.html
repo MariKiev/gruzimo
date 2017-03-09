@@ -2,7 +2,7 @@
 <html lang="en">
 
 {% load bootstrap3 %}
-{% load staticfiles %}
+{% load static %}
 
 <head>
 
@@ -14,16 +14,23 @@
 
     <title>Gruzimo - {% block title %}{% endblock %}</title>
 
+    {% if 'javascript_in_head'|bootstrap_setting %}{% bootstrap_javascript jquery=True %}{% endif %}
+    {% block bootstrap3_extra_head %}{% endblock %}
+
     <!-- Bootstrap Core CSS -->
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 
+
+
     <!-- Custom CSS -->
     <style>
+
     body {
-        padding-top: 0px;
+        padding-top: 70px;
         /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
     }
     </style>
+{#    <link href="{% static 'css/jumbotron.css' %}" rel="stylesheet">#}
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -51,15 +58,11 @@
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav navbar-right">
                     <li>
                         <a href="#">Для водителей</a>
                     </li>
-                    <li>
-                        <a href="{% url "create_order" %}">Заказ</a>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
+
                     {% if request.user.is_authenticated %}
                         <li>
                             <a href="{% url 'logout' %}">Выйти</a>
@@ -84,19 +87,30 @@
         <!-- /.container -->
     </nav>
 
-    <link href="{% static "css/full-width-pics.css" %}" rel="stylesheet">
+    <!-- Page Content -->
+    <div class="container">
 
-     <!-- Full Width Image Header with Logo -->
-    <!-- Image backgrounds are set within the full-width-pics.css file. -->
-    <header class="image-bg-fluid-height">
-{#        <img class="img-responsive img-center" src="http://placehold.it/200x200&text=Logo" alt="">#}
-    </header>
+        <!-- Jumbotron Header -->
+        <div class="bg"></div>
+        <header class="jumbotron hero-spacer">
 
+            <h1>Переезд - легко с Gruzimo!</h1>
+            <br>
+            <p>Cервис для заказа грузового такси или автомобиля с личным водителем. <br>
+                Создайте аккаунт для возможности оплаты картой.</p>
+            <p><a href="{% url 'register' %}" class="btn btn-primary btn-large">Создать аккаунт!</a>
+            </p>
+        </header>
+
+        <hr>
+
+    </div>
 
     <!-- Page Content -->
     <div class="container">
 
         <div class="row">
+
             {% block base_content %}
             {% endblock %}
         </div>
@@ -118,12 +132,51 @@
     </div>
     <!-- /.container -->
 
-    <!-- jQuery Version 1.11.1 -->
-    <script src="{% static "js/jquery-2.2.3.min.js" %}"></script>
+{#    <script>#}
+{#        var jumboHeight = $('.jumbotron').outerHeight();#}
+{#        function parallax(){#}
+{#            var scrolled = $(window).scrollTop();#}
+{#            $('.bg').css('height', (jumboHeight-scrolled) + 'px');#}
+{#        }#}
+{##}
+{#        $(window).scroll(function(e){#}
+{#            parallax();#}
+{#        });#}
+{#    </script>#}
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="{% static "js/bootstrap.min.js" %}"></script>
+    <script>
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        // using jQuery
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
 
+        var csrftoken = getCookie('csrftoken');
+
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+    </script>
 </body>
 
 </html>

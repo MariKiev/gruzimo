@@ -1,4 +1,4 @@
-{% extends "index1.html" %}
+{% extends "index.html" %}
 {% load static bootstrap3 %}
 
 {% block title %}Home{% endblock %}
@@ -27,6 +27,16 @@
 
     </script>
 
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    <a class="close" data-dismiss="alert" href="#">&times;</a>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
     <div class="container">
 
@@ -35,10 +45,13 @@
 
             {% bootstrap_form form form_group_class='form-group col-md-7' size='md' %}
 
-
+            {% if cost %}
+                <input label="Ориентировочная стоимость поездки" class="form-control" name="cost" value="{{ cost }}" readonly />
+            {% endif %}
           <div class="form-group">
             <div class="col-md-7 submit-row">
-              <input type="submit" class="btn btn-primary" value="Отправить заявку" />
+                <input type="submit"  class="btn btn-primary" name="calculate_order" value="Посчитать стоимость" />
+                <input type="submit" class="btn btn-primary" value="Отправить заявку" />
             </div>
           </div>
         </form>
@@ -48,7 +61,7 @@
     <script>
         $(function () {
             $('#id_order_date').datetimepicker({
-                format: 'YYYY-MM-DD HH:mm:ss',
+                format: 'YYYY-MM-DD HH:mm',
                 minDate: moment().add(1, 'd').toDate(),
             });
         });

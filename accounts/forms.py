@@ -7,6 +7,7 @@ from phonenumber_field.formfields import PhoneNumberField
 from accounts.models import User
 from locations.models import Location
 from orders.models import Order
+from orders.utils import convert_meter_to_centimeter
 
 logger = logging.getLogger(__name__)
 
@@ -56,7 +57,7 @@ class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ['from_address', 'from_house', 'from_entrance', 'to_address', 'to_house', 'order_date', 'name',
-                  'phone', 'length', 'width', 'height', 'info', 'order_cost']
+                  'phone', 'length', 'width', 'height', 'info']
 
         labels = {
             'from_address': 'Адрес подачи:',
@@ -71,10 +72,21 @@ class OrderForm(forms.ModelForm):
             'width': 'Ширина, м:',
             'height': 'Высота, м::',
             'info': 'Опишите ваш груз',
-            'order_cost': 'Стоимость'
         }
 
         widgets = {
             'from_address': forms.widgets.Input(attrs={'autocomplete': 'on'}),
             'to_address': forms.widgets.Input(attrs={'autocomplete': 'on'}),
+            'length': forms.widgets.Input(attrs={"step": "0.01"}),
+            'width': forms.widgets.Input(attrs={"step": "0.01"}),
+            'height': forms.widgets.Input(attrs={"step": "0.01"})
         }
+
+    def clean_length(self):
+        return convert_meter_to_centimeter(self.cleaned_data.get('length'))
+
+    def clean_width(self):
+        return convert_meter_to_centimeter(self.cleaned_data.get('width'))
+
+    def clean_height(self):
+        return convert_meter_to_centimeter(self.cleaned_data.get('height'))

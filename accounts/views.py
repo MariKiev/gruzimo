@@ -7,23 +7,37 @@ from django.shortcuts import render, redirect
 
 from accounts.forms import RegistrationForm, OrderForm
 from accounts.models import User
+from orders.utils import get_order_cost
 
 logger = logging.getLogger(__name__)
 
 
 def home(request):
     if request.method == 'POST':
-        form = OrderForm(request.POST)
+        logger.info('create order request: {}'.format(request.POST))
+        order_form = OrderForm(request.POST)
 
-        if not form.is_valid():
-            return render(request, 'order/order.html', {'form': form})
+        if 'calculate_order' in request.POST:
+            logger.info('calculate_order request: {}'.format(request.POST))
 
-        form.save()
-        return redirect('home')
+            if not order_form.is_valid():
+                return render(request, 'home.html', {'form': order_form})
+
+            cost = get_order_cost(request.POST)
+            return render(request, 'home.html', {'form': order_form,
+                                                 'cost': cost})
+
+        else:
+            if not order_form.is_valid():
+                return render(request, 'home.html', {'form': order_form})
+
+            order_form.save()
+            messages.error(request, 'Ваша заявка отправлена')
+            return redirect('home')
 
     else:
-        form = OrderForm()
-    return render(request, 'home.html', {'form': form})
+        order_form = OrderForm()
+    return render(request, 'home.html', {'form': order_form})
 
 
 def register(request):
@@ -90,15 +104,30 @@ def get_profile(request):
 
 
 def create_order(request):
-    if request.method == 'POST':
-        form = OrderForm(request.POST)
-
-        if not form.is_valid():
-            return render(request, 'order/order.html', {'form': form})
-
-        form.save()
-        return redirect('home')
-
-    else:
-        form = OrderForm()
-    return render(request, 'order/order.html', {'form': form})
+    # if request.method == 'POST':
+    #     logger.info('create order request: {}'.format(request.POST))
+    #     order_form = OrderForm(request.POST)
+    #
+    #     if 'calculate_order' in request.POST:
+    #         logger.info('calculate_order request: {request.POST}'.format())
+    #         form = OrderCostForm(request.POST)
+    #
+    #         if not form.is_valid():
+    #             return render(request, 'home.html', {'form': order_form})
+    #
+    #         cost = get_order_cost(request.POST)
+    #         return render(request, 'home.html', {'form': order_form,
+    #                                              'cost': cost})
+    #
+    #     else:
+    #         if not order_form.is_valid():
+    #             return render(request, 'home.html', {'form': order_form})
+    #
+    #         order_form.save()
+    #
+    #         return redirect('home')
+    #
+    # else:
+    #     order_form = OrderForm()
+    # return render(request, 'home.html', {'form': order_form})
+    pass
