@@ -185,6 +185,7 @@ LOGGING = {
     },
 }
 
+GOOGLE_MAPS_KEY = os.environ.get('GOOGLE_MAPS_KEY', '')
 
 try:
     from .local_settings import *
