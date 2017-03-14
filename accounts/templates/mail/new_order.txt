@@ -1,0 +1,8 @@
+
+Order {{ order_id }},
+
+{{ order }}
+
+Best regards,
+gruzimo.io
+

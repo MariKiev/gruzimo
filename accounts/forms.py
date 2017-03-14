@@ -70,7 +70,7 @@ class OrderForm(forms.ModelForm):
             'phone': 'Телефон:',
             'length': 'Длина, м:',
             'width': 'Ширина, м:',
-            'height': 'Высота, м::',
+            'height': 'Высота, м:',
             'info': 'Опишите ваш груз',
         }
 
@@ -81,6 +81,10 @@ class OrderForm(forms.ModelForm):
             'width': forms.widgets.Input(attrs={"step": "0.01"}),
             'height': forms.widgets.Input(attrs={"step": "0.01"})
         }
+
+    length = forms.FloatField()
+    width = forms.FloatField()
+    height = forms.FloatField()
 
     def clean_length(self):
         return convert_meter_to_centimeter(self.cleaned_data.get('length'))

@@ -1,5 +1,6 @@
 import logging
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, logout as django_logout, login as django_login
 from django.contrib.auth.decorators import login_required
@@ -7,7 +8,7 @@ from django.shortcuts import render, redirect
 
 from accounts.forms import RegistrationForm, OrderForm
 from accounts.models import User
-from orders.utils import get_order_cost
+from orders.utils import get_order_cost, get_content_for_mail, send_email
 
 logger = logging.getLogger(__name__)
 
@@ -31,8 +32,14 @@ def home(request):
             if not order_form.is_valid():
                 return render(request, 'home.html', {'form': order_form})
 
-            order_form.save()
-            messages.error(request, 'Ваша заявка отправлена')
+            order = order_form.save()
+
+            # send email about new order
+            text_content, html_content = get_content_for_mail(order)
+            send_email('New gruzimo order {}'.format(order.id),
+                       text_content, html_content, 'gruzimo@sparkpostbox.com', settings.EMAIL_SEND_USER)
+
+            messages.success(request, 'Ваша заявка отправлена')
             return redirect('home')
 
     else:

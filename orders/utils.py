@@ -4,6 +4,8 @@ from decimal import Decimal
 import googlemaps
 
 from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
+from django.template import loader
 
 logger = logging.getLogger(__name__)
 
@@ -20,8 +22,8 @@ def get_order_cost(data):
 
     if "Киев, город Киев" not in data.get("to_address") and 'Киев, город Киев' not in data.get('from_address'):
         distance, duration = get_distance(data.get('from_address'), data.get("to_address"))
-    elif 'Київ, Украина' not in data.get("to_address") and 'Київ, Украина' not in data.get('from_address'):
-        distance, duration = get_distance(data.get('from_address'), data.get("to_address"))
+    # elif 'Київ, Украина' not in data.get("to_address") and 'Київ, Украина' not in data.get('from_address'):
+    #     distance, duration = get_distance(data.get('from_address'), data.get("to_address"))
     else:
         distance = None
         duration = None
@@ -39,7 +41,7 @@ def get_order_cost(data):
     else:
         raise CalculateCostError("Should be less then 86m3. Create 2 orders.")
 
-    return convert_coins_to_uah(cost)
+    return round(convert_coins_to_uah(cost), 2)
 
 
 def calculate_size(length, width, height):
@@ -148,3 +150,20 @@ def get_distance(from_address, to_address):
     distance = float(result['rows'][0]['elements'][0]['distance']['value']) / 1000  # in km
     duration = float(result['rows'][0]['elements'][0]['duration']['value']) / 3600  # in hours
     return distance, duration
+
+
+def send_email(subject, text_content, html_content, from_email, to_email):
+    msg = EmailMultiAlternatives(subject, text_content, from_email, to_email)
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
+
+
+def get_content_for_mail(order):
+
+    context = {
+            'order_id': order.id,
+            'order': str(order),
+        }
+    text_content = loader.render_to_string('mail/new_order.txt', context)
+    html_content = loader.render_to_string('mail/new_order.html', context)
+    return text_content, html_content

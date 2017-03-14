@@ -28,3 +28,10 @@ class Order (models.Model):
     height = models.IntegerField()  # in centimeter
     info = models.CharField(max_length=1024)
     order_cost = models.IntegerField(null=True)
+
+    def __str__(self):
+        return 'Создан: {}, Адрес подачи: {}, Дом: {}, Подъезд: {}, Адрес доставки: {}, Дом: {}, Когда ехать: {},' \
+               'имя: {}, Телефон: {}, Длина, м: {}, Ширина, м: {}, Высота, м: {}, Груз: {}, Стоимость: {}'.format(
+                self.created, self.from_address, self.from_house, self.from_entrance, self.to_address,
+                self.to_house, self.order_date, self.name, self.phone, self.length, self.width, self.height, self.info,
+                self.order_cost)

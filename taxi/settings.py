@@ -187,6 +187,13 @@ LOGGING = {
 
 GOOGLE_MAPS_KEY = os.environ.get('GOOGLE_MAPS_KEY', '')
 
+EMAIL_HOST = 'smtp.sparkpostmail.com'
+EMAIL_PORT = 587
+EMAIL_SEND_USER = ['iam.marik@gmail.com']
+EMAIL_HOST_USER = 'SMTP_Injection'
+EMAIL_HOST_PASSWORD = ""
+EMAIL_USE_TLS = True
+
 try:
     from .local_settings import *
 except ImportError:
